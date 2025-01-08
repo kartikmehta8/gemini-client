@@ -4,7 +4,9 @@ require("dotenv").config();
 
 const GEMINI_API_KEYS = process.env.GEMINI_API_KEYS.split(" ");
 
-var keyIndex = 0;
+// use a random index to start with
+var keyIndex = Math.floor(Math.random() * GEMINI_API_KEYS.length);
+const initialKeyIndex = keyIndex;
 
 async function generate(prompt) {
   const randomKey = GEMINI_API_KEYS[keyIndex];
@@ -17,11 +19,10 @@ async function generate(prompt) {
     const result = await model.generateContent(prompt);
     return result.response.text();
   } catch (e) {
-    // if error occurs, try again with a new key
     console.error(e);
     console.log("Error occured, trying again with a new key...");
-    keyIndex = keyIndex + 1;
-    if (keyIndex >= GEMINI_API_KEYS.length) {
+    keyIndex = (keyIndex + 1) % GEMINI_API_KEYS.length;
+    if (keyIndex === initialKeyIndex) {
       console.log("All keys used, exiting...");
       return "No more keys available";
     }
