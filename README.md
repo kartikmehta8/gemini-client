@@ -43,11 +43,11 @@ This project demonstrates how to interact with the [Google Generative AI Node.js
 
 1. **Clone or Download** this repository.
 2. In the project folder, run:
-   ````bash
+   ```bash
    npm install
     ```
    This installs the @google/generative-ai and dotenv packages.
-   ````
+   
 
 ## Configuration
 
@@ -55,13 +55,10 @@ This project demonstrates how to interact with the [Google Generative AI Node.js
 
 2.  Add the following line to your .env file, including all your API keys separated by spaces:
 
-        ```bash
-
+    ```bash
     GEMINI_API_KEYS="YOUR_GEMINI_KEY_1 YOUR_GEMINI_KEY_2 YOUR_GEMINI_KEY_3"
-
     ```
 
-    ```
 
 3.  (Optional) If you have additional environment variables or configurations, set them here as well.
 
