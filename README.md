@@ -33,7 +33,7 @@ This project demonstrates how to interact with the [Google Generative AI Node.js
 
 ## Prerequisites
 
-1. **Node.js** version 16 or higher.
+1. **Node.js** version 18 or higher.
 2. **NPM** or **Yarn** package manager.
 3. **One or more** valid Gemini API keys.
 
@@ -81,8 +81,6 @@ GEMINI_API_KEYS="key1 key2 key3"
    We read the environment variable GEMINI_API_KEYS and split it by spaces to get an array of keys.
 
 2. Random Key Index
-
-<!-- code -->
 
 ```javascript
 var keyIndex = Math.floor(Math.random() * GEMINI_API_KEYS.length);
