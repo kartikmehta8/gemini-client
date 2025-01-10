@@ -1,29 +1,33 @@
 {
-  "name": "gemini-engine",
+  "name": "gemini-client",
   "version": "1.0.0",
-  "description": "Fully utilize Google's free gemini-1.5-flash version for various gen-AI tasks",
-  "main": "index.js",
+  "description": "Google Gemini client with free `gemini-1.5-flash` model.",
+  "main": "gemini_client.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node gemini_client.js",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/godofgeeks23/gemini-engine.git"
+    "url": "git+https://github.com/kartikmehta8/gemini-client.git"
   },
   "keywords": [
-    "gemini",
-    "generative",
+    "Gemini",
+    "Generative",
     "AI",
     "google"
   ],
-  "author": "Aviral Srivastava",
-  "license": "ISC",
+  "author": "Kartik Mehta",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/godofgeeks23/gemini-engine/issues"
+    "url": "https://github.com/kartikmehta8/gemini-client/issues"
   },
-  "homepage": "https://github.com/godofgeeks23/gemini-engine#readme",
+  "homepage": "https://github.com/kartikmehta8/gemini-client#readme",
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2"
   }
 }

@@ -1,41 +1,44 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+require('dotenv').config();
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-require("dotenv").config();
+class KeyManager {
+  constructor(keys) {
+    this.keys = keys;
+    this.currentIndex = Math.floor(Math.random() * keys.length);
+  }
 
-const GEMINI_API_KEYS = process.env.GEMINI_API_KEYS.split(" ");
-
-// use a random index to start with
-var keyIndex = Math.floor(Math.random() * GEMINI_API_KEYS.length);
-const initialKeyIndex = keyIndex;
-
-async function generate(prompt) {
-  const randomKey = GEMINI_API_KEYS[keyIndex];
-  console.log("Using key:", keyIndex);
-
-  const genAI = new GoogleGenerativeAI(randomKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-  try {
-    const result = await model.generateContent(prompt);
-    return result.response.text();
-  } catch (e) {
-    console.error(e);
-    console.log("Error occured, trying again with a new key...");
-    keyIndex = (keyIndex + 1) % GEMINI_API_KEYS.length;
-    if (keyIndex === initialKeyIndex) {
-      console.log("All keys used, exiting...");
-      return "No more keys available";
-    }
-    return generate(prompt);
+  getNextKey() {
+    const key = this.keys[this.currentIndex];
+    this.currentIndex = (this.currentIndex + 1) % this.keys.length;
+    return key;
   }
 }
 
-// async function main() {
-//   const prompt = "Introduce yourself in 20 words or less.";
-//   const result = await generate(prompt);
-//   console.log(result);
-// }
+class Gemini {
+  constructor(keys, maxRetries = 5) {
+    this.keyManager = new KeyManager(keys);
+    this.maxRetries = maxRetries;
+  }
 
-// main();
+  async generate(prompt) {
+    let attempts = 0;
+    while (attempts < this.maxRetries) {
+      const key = this.keyManager.getNextKey();
+      console.log(`Using key: ${key}`);
 
-module.exports = generate;
+      const genAI = new GoogleGenerativeAI(key);
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+      try {
+        const result = await model.generateContent(prompt);
+        return result.response.text();
+      } catch (e) {
+        console.error(`Attempt ${attempts + 1} failed:`, e.message);
+        attempts++;
+      }
+    }
+    return 'Failed after max retries';
+  }
+}
+
+module.exports = new Gemini(process.env.GEMINI_API_KEYS.split(' '));
